@@ -41,11 +41,11 @@ namespace GreenBill.Identity.Application.Authentication.Refresh
             // Revoke old token (rotation)
             stored.RevokedAtUtc = DateTime.UtcNow;
 
-            var roles = user.UserRoles
-                .Select(ur => ur.Role.Name)
-                .ToList();
+            var roles = user.UserRoles.Select(ur => ur.Role.Name).Distinct().ToList();
+            if (roles.Count != 1)
+                throw new InvalidOperationException("Each user must have exactly one role.");
 
-            var newAccessToken = _tokenService.GenerateAccessToken(user, roles);
+            var newAccessToken = _tokenService.GenerateAccessToken(user, roles[0]);
             var rawNewRefreshToken = _tokenService.GenerateRefreshToken();
 
             var newRefreshToken = new RefreshToken

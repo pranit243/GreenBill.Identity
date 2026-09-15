@@ -19,7 +19,7 @@ namespace GreenBill.Identity.Application.Authentication
             _settings = settings.Value;
         }
 
-        public string GenerateAccessToken(User user, IEnumerable<string> roles)
+        public string GenerateAccessToken(User user, string role)
         {
             var key = new SymmetricSecurityKey(
                 Encoding.UTF8.GetBytes(_settings.SecretKey));
@@ -28,11 +28,11 @@ namespace GreenBill.Identity.Application.Authentication
             {
                 new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
                 new Claim(JwtRegisteredClaimNames.Email, user.Email),
-                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
+                new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
+                new Claim(ClaimTypes.MobilePhone, user.PhoneNumber ?? "")
             };
 
-            claims.AddRange(
-                roles.Select(r => new Claim(ClaimTypes.Role, r)));
+            claims.Add(new Claim(ClaimTypes.Role, role));
 
             var token = new JwtSecurityToken(
                 issuer: _settings.Issuer,

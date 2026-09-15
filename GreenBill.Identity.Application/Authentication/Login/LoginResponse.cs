@@ -10,6 +10,6 @@ namespace GreenBill.Identity.Application.Authentication.Login
 
         public string Email { get; set; } = null!;
 
-        public IEnumerable<string> Roles { get; set; } = [];
+        public string Role { get; set; } = null!;
     }
 }

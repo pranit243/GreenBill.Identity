@@ -38,11 +38,11 @@ namespace GreenBill.Identity.Application.Authentication.Login
                 throw new UnauthorizedAccessException("Invalid credentials.");
             }
 
-            var roles = user.UserRoles
-                .Select(ur => ur.Role.Name)
-                .ToList();
+            var roles = user.UserRoles.Select(ur => ur.Role.Name).Distinct().ToList();
+            if (roles.Count != 1)
+                throw new InvalidOperationException("Each user must have exactly one role.");
 
-            var accessToken = _tokenService.GenerateAccessToken(user, roles);
+            var accessToken = _tokenService.GenerateAccessToken(user, roles[0]);
             var rawRefreshToken = _tokenService.GenerateRefreshToken();
 
             var refreshToken = new RefreshToken
@@ -63,7 +63,7 @@ namespace GreenBill.Identity.Application.Authentication.Login
                 RefreshToken = rawRefreshToken,
                 UserId = user.Id,
                 Email = user.Email,
-                Roles = roles
+                Role = roles[0]
             };
         }
     }

@@ -19,6 +19,8 @@ namespace GreenBill.Identity.Infrastructure.Persistent.Seed
 
         public async Task SeedAsync()
         {
+            await _context.Database.MigrateAsync();
+
             List<Role> rolesToSeed = new List<Role>
             {
                 new Role{Id = Guid.NewGuid(), Name = "Owner", Description = "GreenBill Owner"},

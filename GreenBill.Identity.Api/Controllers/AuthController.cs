@@ -3,6 +3,7 @@ using GreenBill.Identity.Application.Authentication.Refresh;
 using GreenBill.Identity.Application.Authentication.Register;
 using GreenBill.Identity.Application.Authentication.Revoke;
 using MediatR;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GreenBill.Identity.Api.Controllers
@@ -19,6 +20,7 @@ namespace GreenBill.Identity.Api.Controllers
         }
 
         [HttpPost("register")]
+        [AllowAnonymous]
         public async Task<IActionResult> Register(
             RegisterCommand command,
             CancellationToken cancellationToken)
@@ -28,6 +30,7 @@ namespace GreenBill.Identity.Api.Controllers
         }
 
         [HttpPost("login")]
+        [AllowAnonymous]
         public async Task<IActionResult> Login(
             LoginCommand command,
             CancellationToken cancellationToken)
@@ -37,6 +40,7 @@ namespace GreenBill.Identity.Api.Controllers
         }
 
         [HttpPost("refresh")]
+        [AllowAnonymous]
         public async Task<IActionResult> Refresh(
             RefreshTokenCommand command,
             CancellationToken cancellationToken)
@@ -46,12 +50,25 @@ namespace GreenBill.Identity.Api.Controllers
         }
 
         [HttpPost("revoke")]
+        [AllowAnonymous]
         public async Task<IActionResult> Revoke(
             RevokeTokenCommand command,
             CancellationToken cancellationToken)
         {
             await _mediator.Send(command, cancellationToken);
             return NoContent();
+        }
+
+        [Authorize]
+        [HttpGet("validate")]
+        public IActionResult ValidateToken()
+        {
+            return Ok(new
+            {
+                UserId = User.FindFirst("sub")?.Value,
+                Email = User.FindFirst("email")?.Value,
+                Role = User.FindFirst(System.Security.Claims.ClaimTypes.Role)?.Value
+            });
         }
     }
 }

@@ -5,6 +5,7 @@ using GreenBill.Identity.Infrastructure.Persistent.Seed;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
 using System.Text;
+using GreenBill.Identity.Domain.Constants;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -69,7 +70,16 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
-builder.Services.AddAuthorization();
+builder.Services.AddAuthorization(options =>
+{
+    options.FallbackPolicy = new Microsoft.AspNetCore.Authorization.AuthorizationPolicyBuilder()
+        .RequireAuthenticatedUser()
+        .Build();
+    options.AddPolicy("OwnerOnly", policy => policy.RequireRole(RoleNames.Owner));
+    options.AddPolicy("MerchantOnly", policy => policy.RequireRole(RoleNames.Merchant));
+    options.AddPolicy("CustomerOnly", policy => policy.RequireRole(RoleNames.Customer));
+    options.AddPolicy("PartnerOnly", policy => policy.RequireRole(RoleNames.Partner));
+});
 
 var app = builder.Build();
 
