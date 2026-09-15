@@ -1,4 +1,4 @@
-﻿using GreenBill.Identity.Entity;
+using GreenBill.Identity.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;

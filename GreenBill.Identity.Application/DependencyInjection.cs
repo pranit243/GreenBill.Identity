@@ -1,6 +1,4 @@
 ﻿using FluentValidation;
-using GreenBill.Identity.Application.Authentication;
-using GreenBill.Identity.Application.Authentication.Interfaces;
 using GreenBill.Identity.Application.Common.Behaviors;
 using MediatR;
 using Microsoft.Extensions.DependencyInjection;
@@ -20,12 +18,8 @@ namespace GreenBill.Identity.Application
 
             services.AddTransient(typeof(IPipelineBehavior<,>),typeof(ValidationBehavior<,>));
 
-            services.AddScoped<IPasswordHasher, PasswordHasher>();
-            services.AddScoped<ITokenService, TokenService>();
-            services.AddScoped<IUserRepository, UserRepository>();
-            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
-            services.AddScoped<IRoleRepository, RoleRepository>();
-
+            // Concrete implementations of the interfaces above are registered
+            // by GreenBill.Identity.Infrastructure.DependencyInjection.AddInfrastructure
             return services;
         }
     }

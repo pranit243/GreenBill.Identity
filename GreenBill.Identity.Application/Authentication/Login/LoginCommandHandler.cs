@@ -1,5 +1,5 @@
 using GreenBill.Identity.Application.Authentication.Interfaces;
-using GreenBill.Identity.Entity;
+using GreenBill.Identity.Domain.Entity;
 using MediatR;
 
 namespace GreenBill.Identity.Application.Authentication.Login

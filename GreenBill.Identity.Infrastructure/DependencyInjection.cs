@@ -1,5 +1,7 @@
+using GreenBill.Identity.Application.Authentication.Interfaces;
 using GreenBill.Identity.Infrastructure.Authentication;
 using GreenBill.Identity.Infrastructure.Persistent;
+using GreenBill.Identity.Infrastructure.Persistent.Repositories;
 using GreenBill.Identity.Infrastructure.Persistent.Seed;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -21,6 +23,12 @@ namespace GreenBill.Identity.Infrastructure
                 configuration.GetSection("Jwt"));
 
             services.AddScoped<IdentityDbSeeder>();
+
+            services.AddScoped<IPasswordHasher, PasswordHasher>();
+            services.AddScoped<ITokenService, TokenService>();
+            services.AddScoped<IUserRepository, UserRepository>();
+            services.AddScoped<IRefreshTokenRepository, RefreshTokenRepository>();
+            services.AddScoped<IRoleRepository, RoleRepository>();
 
             return services;
         }

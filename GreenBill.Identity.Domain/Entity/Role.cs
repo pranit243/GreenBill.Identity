@@ -1,4 +1,4 @@
-﻿namespace GreenBill.Identity.Entity
+namespace GreenBill.Identity.Domain.Entity
 {
     public class Role
     {

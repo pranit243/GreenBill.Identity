@@ -1,9 +1,8 @@
-﻿using GreenBill.Identity.Application.Authentication.Interfaces;
-using GreenBill.Identity.Entity;
+using GreenBill.Identity.Application.Authentication.Interfaces;
+using GreenBill.Identity.Domain.Entity;
 using Microsoft.AspNetCore.Identity;
-using IdentityPasswordHasher = Microsoft.AspNetCore.Identity.PasswordHasher<GreenBill.Identity.Entity.User>;
 
-namespace GreenBill.Identity.Application.Authentication
+namespace GreenBill.Identity.Infrastructure.Authentication
 {
     public class PasswordHasher : IPasswordHasher
     {

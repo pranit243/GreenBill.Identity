@@ -1,9 +1,8 @@
 using GreenBill.Identity.Application.Authentication.Interfaces;
-using GreenBill.Identity.Entity;
-using GreenBill.Identity.Infrastructure.Persistent;
+using GreenBill.Identity.Domain.Entity;
 using Microsoft.EntityFrameworkCore;
 
-namespace GreenBill.Identity.Application.Authentication
+namespace GreenBill.Identity.Infrastructure.Persistent.Repositories
 {
     public class RefreshTokenRepository : IRefreshTokenRepository
     {

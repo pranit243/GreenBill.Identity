@@ -1,4 +1,4 @@
-using GreenBill.Identity.Entity;
+using GreenBill.Identity.Domain.Entity;
 
 namespace GreenBill.Identity.Application.Authentication.Interfaces
 {
